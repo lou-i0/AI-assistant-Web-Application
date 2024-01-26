@@ -8,6 +8,11 @@ The Idea of this (WAOA) was to learn a few things:
 
 This work conducted here will go toward my understanding of a way to create a web app. Furthermore, the use of the ai assistant will provide a predicate into how a llm can be used, created and applied into a useful scenario - to help me learn for future work.
 
+The Assistant API has benefits such a level of abstraction from an llm , but keeping conversation context, and adding more data to enrich the knowledge base. Additionally, it will be able to access multiple tools ion parallel to do stuff. 
+
+the assistant API can be set up with a defined characteristic and capabilities and more in comparison to the chat completions api as shown in the below screenshot:
+![Assisant API vs Completions API](assis_vs_completion_api_comparison.png)
+
 ## Table of Contents
 
 1. [Getting Started](#getting-started)
@@ -26,9 +31,13 @@ This work conducted here will go toward my understanding of a way to create a we
 
 Instructions on how to install and run the project. Include any dependencies and prerequisites.
 
-### dependencies
+### dependencies /  pre-requisites
+1. Before going further to either using or creating this web application, I needed to create an api key for the ai assistant from Open AI in which to use later. To do this: 
+    1. Go to [OpenAI](https://openai.com/)
+    2. Log in to your account (or create one!)
+    3. Click on API on the right hand side 
+    4. This will bring you to the main api page. From there, click on API keys (that is a little lock icon on the left hand side).
 
-### pre-requisites
 
 ## Usage
 
@@ -78,5 +87,10 @@ Provide a way for users to contact you or the project maintainers. This could in
  Left a list below of key terms, in case it helps:
  - AI - Artificial Intelligence
  - LLM - Large Language Model
+ - Assistants API -  A tool for developers from open ai platform to craft powerful AI assistants to do a an array of tasks.
+
+
+ I would like to thank the folks at freecode camp for the inspiration behind this exercise, with the following tutorial to help me learn this area :
+ [OpenAI Assistants API tutorial](https://www.youtube.com/watch?v=qHPonmSX4Ms)
 
 
