@@ -28,6 +28,21 @@ the assistant API can be set up with a defined characteristic and capabilities a
 13. [Contact](#contact)
 13. [Glossary](#glossary)
 
+
+## How to build the Assistant API
+Please see below screenshot to illustrate the steps needed to build the assistants API from open AI into my web application:
+![assis_Api_building blocks](assis_api_building_blocks.png)
+
+It consists of 4 main building blocks:
+1. Assistant - the entity or thing that will be built then use to get information.
+2. Thread -  All messages between Assistant and user get tracked.
+3. Message(s) - the inputs outputs conversation between the Assistant and the user.
+3. Run Entity - which makes the process and returns to the Assistant with information. Need a few things set up to run relevant queries received:
+    1. Needs access to the Assistant -  potentially shows as an ID?
+    2. Reference to the thread where the relevant messages are.
+    3. Triggered to run steps based on context/decisions.
+
+
 ## Getting Started
 
 Instructions on how to install and run the project. Include any dependencies and prerequisites.
@@ -39,18 +54,6 @@ Instructions on how to install and run the project. Include any dependencies and
     3. Click on API on the right hand side 
     4. This will bring you to the main api page. From there, click on API keys (that is a little lock icon on the left hand side).
 
-
-## Usage
-
-Explain how to use the project. Provide examples and code snippets.
-
-## Configuration
-
-Information on how to configure the project. Include details about configuration files and variables.
-
-## Contributing
-
-Guidelines for contributing to the project. Include information on submitting issues, feature requests, and pull requests.
 
 ## License
 
