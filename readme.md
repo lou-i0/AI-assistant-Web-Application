@@ -17,75 +17,46 @@ the assistant API can be set up with a defined characteristic and capabilities a
 ## Table of Contents
 
 1. [Getting Started](#getting-started)
-2. [Usage](#usage)
-3. [Configuration](#configuration)
-4. [Contributing](#contributing)
-5. [License](#license)
-6. [Credits](#credits)
-7. [Documentation](#documentation)
-8. [Testing](#testing)
-10. [Support](#support)
-13. [Contact](#contact)
-13. [Glossary](#glossary)
+
+## Pre-requisites before creating the web application/ assistant.
+1. Api Key Creation: 
+    1. Go to [OpenAI](https://openai.com/)
+    2. Log in to your account (or create one!)
+    3. Click on API on the right hand side 
+    4. This will bring you to the main api page. From there, click on API keys (that is a little lock icon on the left hand side).
+2. Set up Billing:
+to proceed in this exercise I had to add payment details and pay an amount i was comfortable with in order to use the functionalities in open AI. for testing purposes and later infrequent use, the prices are pretty reasonsable and even more so on the older llm models you can adopt. To set up billing, go the [billing settings](https://platform.openai.com/account/billing/overview), add a payment method, and add an amount to begin. 
+
+## Steps Taken
+1. [How to build the Assistant API](#how-to-build-the-assistant-api)
 
 
-## How to build the Assistant API
+### How to build the Assistant API
+#### Context 
 Please see below screenshot to illustrate the steps needed to build the assistants API from open AI into my web application:
 ![assis_Api_building blocks](assis_api_building_blocks.png)
 
 It consists of 4 main building blocks:
 1. Assistant - the entity or thing that will be built then use to get information.
-2. Thread -  All messages between Assistant and user get tracked.
+2. Thread -  All messages between Assistant and user get tracked. Think of it as a conversation bucket where all you messages go to in a session :).
 3. Message(s) - the inputs outputs conversation between the Assistant and the user.
 3. Run Entity - which makes the process and returns to the Assistant with information. Need a few things set up to run relevant queries received:
     1. Needs access to the Assistant -  potentially shows as an ID?
     2. Reference to the thread where the relevant messages are.
     3. Triggered to run steps based on context/decisions.
 
+#### Creating the AI Assistant in open AI playgound.
+Now I have the context understood as what needs to be done to create the AI Assistant, it is time to put the plan to action. Therefore I went back into the OpenAI API page [OpenAI Developer Platform](https://platform.openai.com/docs/overview) to go and create an assistant by clicking the robot icon to the right of the screen. From there I cam e across a screen similar to the below:
+![assis_page](dave_assis1.png)
+Where I went and created an assistant called Dave; a sassy butler, to help me with all my data analysis needs and wants!
 
-## Getting Started
+From there I decided to go an test the assistant before going any further, by clicking on the 'Test' button at the right top right of the assistant selected screen.
+![Dave Testing](assis_testing.png)
+Which brings you to a playground to test how Dave is working. To my amazement, it is performing ( intially at least) how I like it to be :). You can see the assistant configuration on the left, the testing area in the middle, and the requests made as part of the queries on the right.
 
-Instructions on how to install and run the project. Include any dependencies and prerequisites.
+#### Creating the assistant in code form
+Now we have tested the art of the possible to create an AI assistant in the Open AI playground, I am now going to replicate this same lovely data butler in code form. In such a case I plan to create this all in python via VS code. to continue.
 
-### dependencies /  pre-requisites
-1. Before going further to either using or creating this web application, I needed to create an api key for the ai assistant from Open AI in which to use later. To do this: 
-    1. Go to [OpenAI](https://openai.com/)
-    2. Log in to your account (or create one!)
-    3. Click on API on the right hand side 
-    4. This will bring you to the main api page. From there, click on API keys (that is a little lock icon on the left hand side).
-
-
-## License
-
-This project is licensed under the [Your License] - see the [LICENSE](LICENSE) file for details.
-
-## Credits
-
-Acknowledge any third-party libraries, tools, or resources used in the project.
-
-## Documentation
-
-Provide links to more detailed documentation if available.
-
-## Testing
-
-Information on how to run tests for the project.
-
-## FAQ
-
-Anticipated frequently asked questions and their answers.
-
-## Support
-
-How users can get help if they encounter issues. Include links to issue trackers, forums, or community channels.
-
-## Changelog
-
-Document changes, updates, and new features over time.
-
-## Contact
-
-Provide a way for users to contact you or the project maintainers. This could include an email address or relevant social media profiles.
 
 ## Glossary
  Left a list below of key terms, in case it helps:
