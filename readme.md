@@ -8,7 +8,8 @@ The Idea of this (WAOA) was to learn a few things:
 
 This work conducted here will go toward my understanding of a way to create a web app. Furthermore, the use of the ai assistant will provide a predicate into how a llm can be used, created and applied into a useful scenario - to help me learn for future work.
 
-The Assistant API has benefits such a level of abstraction from an llm , but keeping conversation context, and adding more data to enrich the knowledge base. Additionally, it will be able to access multiple tools ion parallel to do stuff. 
+The Assistant API has benefits such a level of abstraction from an llm , but keeping conversation context, and adding more data to enrich the knowledge base. Additionally, it will be able to access multiple tools ion parallel to do stuff. There is some more info here that explains more in a visual format:
+![Benefits](assis_api_benefits.png)
 
 the assistant API can be set up with a defined characteristic and capabilities and more in comparison to the chat completions api as shown in the below screenshot:
 ![Assisant API vs Completions API](assis_vs_completion_api_comparison.png)
