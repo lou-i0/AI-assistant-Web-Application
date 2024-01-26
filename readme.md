@@ -75,8 +75,8 @@ Document changes, updates, and new features over time.
 Provide a way for users to contact you or the project maintainers. This could include an email address or relevant social media profiles.
 
 ## Glossary
- Left a list below of key terms, in case it helps :
+ Left a list below of key terms, in case it helps:
  - AI - Artificial Intelligence
- - LLM - Large Language Model'
+ - LLM - Large Language Model
 
 
