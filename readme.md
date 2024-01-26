@@ -6,7 +6,7 @@ The Idea of this (WAOA) was to learn a few things:
 - How to create a web application using the python library - streamlit.
 - Additionally, how to use a AI assistant API from open AI; and understand how that works within the Web application.
 
-This work conducted here will go toward my understanding of a way to create a web app. Furthermore,m the use of the ai assistant will provide a predicate into how an llm can be used, created and applied into a usable scenario - to help me learn for future work.
+This work conducted here will go toward my understanding of a way to create a web app. Furthermore, the use of the ai assistant will provide a predicate into how a llm can be used, created and applied into a useful scenario - to help me learn for future work.
 
 ## Table of Contents
 
@@ -77,4 +77,6 @@ Provide a way for users to contact you or the project maintainers. This could in
 ## Glossary
  Left a list below of key terms, in case it helps :
  - AI - Artificial Intelligence
+ - LLM - Large Language Model'
+
 
