@@ -4,8 +4,7 @@
 #-----------------------------
 from openai import OpenAI                   # for using openai tools.
 from dotenv import find_dotenv, load_dotenv # retrieve .env variables.
-import os                                   # Operating system operations.
-import time as tim                          # tracking and formatting time
+import os                                   # Operating system operations.  Hello Dave, dare i ask to require knowledge regarding the use of a boxplot?
 from datetime import datetime as dti        # datetime manipulation
 #=============================
 
@@ -32,7 +31,7 @@ conv_id = "thread_u3aglkR6O1ImOP0HnuIUOeKk"
 # %%============================
 # 3 - Create New Message for saved conversation bucket (thread)
 #----------------------------
-msg = "What is big data?"
+msg = input("Please enter your message for D.A.V.E here:")
 message = oa.beta.threads.messages.create(thread_id = conv_id, role = "user", content = msg)
 #============================
 
