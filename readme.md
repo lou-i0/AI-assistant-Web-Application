@@ -90,7 +90,7 @@ Finally, to actually call the function and returns the response to the terminal.
 #### What does the output look like at this stage? 
 Well for that lets ask D.A.V.E to give a response on this sentence: "Good butler, dare I ask the benefits of using a bar chart for my dataset?"
 ![code_response](code_response.png)
-As you can see, it has come back with a response! Its not nearly as sassy as i need it to be. but too be fair I have been using the same assistant and thread for a while, so it may have been diluted. Let try and say something like "how are you dave?" to see what comes back:
+As you can see, it has come back with a response! Its not nearly as sassy as i need it to be. After some sleuthing, there appears to be a bug between the use of the assistant in the openAI playground , compared with the use in the python code. something to monitor, but at least for now , this works!
 
 
 
