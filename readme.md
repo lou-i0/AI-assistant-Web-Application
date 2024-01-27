@@ -27,6 +27,14 @@ the assistant API can be set up with a defined characteristic and capabilities a
 2. Set up Billing:
 to proceed in this exercise I had to add payment details and pay an amount i was comfortable with in order to use the functionalities in open AI. for testing purposes and later infrequent use, the prices are pretty reasonsable and even more so on the older llm models you can adopt. To set up billing, go the [billing settings](https://platform.openai.com/account/billing/overview), add a payment method, and add an amount to begin. 
 
+3. Python Libraries - needed to be used within python and beyond for both api and web application:
+| Library | What it does | Notes |
+|---------|--------------|-------|
+| openai | Use and access open ai tools and interface||
+| os | # Operating system operations and env variable retrieval. |Used in initial coding stage, but may need to be changed later on|
+| time | tracking and formatting time | Lovingly referred to as tim |
+| datetime | datetime manipulation |
+
 ## Steps Taken
 1. [How to build the Assistant API](#how-to-build-the-assistant-api)
 
@@ -55,7 +63,38 @@ From there I decided to go an test the assistant before going any further, by cl
 Which brings you to a playground to test how Dave is working. To my amazement, it is performing ( intially at least) how I like it to be :). You can see the assistant configuration on the left, the testing area in the middle, and the requests made as part of the queries on the right.
 
 #### Creating the assistant in code form
-Now we have tested the art of the possible to create an AI assistant in the Open AI playground, I am now going to replicate this same lovely data butler in code form. In such a case I plan to create this all in python via VS code. to continue.
+Now we have tested the art of the possible to create an AI assistant in the Open AI playground, I am now going to replicate this same lovely data butler in code form. In such a case I plan to create this all in python via VS code to continue.
+Please this [notebook here](https://github.com/lou-i0/WAOA_API/blob/master/main.py) for the code itself.
+##### Steps Taken 
+1. Import relevant libraries
+ As mentioned in the pre-requisites above, the above libraries are used to process the python code script:
+
+2. Set up OpenAI connection
+Used a api key I created previously ( and mentioned in the notes above) and called it via a stored environment variable on my local machine ( may need to be changed in future, to match progressing requirements.)
+
+3. Set up assistant and conversation bucket or use the hardcoded values from previous set up.
+So at this stage of the code, there are two methods to get this set up. Firstly, to create an assistant ready to receive the queries, as well as a conversation bucket (thread) in which to store the conversation between the user and the assistant. however this would be laborious to create a new instance each time. Therefore, the second methods is to use hardcoded values that were found and stored as variables to proceed further. This way it keep the same set up as previously created and keeps management of dealing with it minimal. The former is kept in the code and commented out if needed to be re-ran in future.
+
+4. Create Message to send to D.A.V.E
+In order to set this stage up initially, a hardcoded sentence was used in a variable to then pass onto D.A.V.E for processing. However i decided to change it after to await for a user input to make a custom message at the time of execution for a more real experience ( as if you were typing directly to ChatGPT) This may need to change as this project progresses, but for now, this suits my view of hwo it should be done. 
+
+5. Set up  query and get the response - part one
+Now, onto the slightly funky part. This step involves processing a 'run' to tell D.A.V.E: "using this conversation bucket and this message, and learn something and come back". The results from this is essentially retrieved from the next phase.
+
+6. Set up query and get the response - part two -  Function
+A Function is created to not only retrieve run details (in other words, what is D.A.V.E's response) but the time it took to get the response. A useful feature to measure time taken but safeguards not retrieving the information to early and konking out. Im not too happy with the layout, but it works and will be revisited.
+
+7. Process and get response
+Finally, to actually call the function and returns the response to the terminal.
+
+#### What does the output look like at this stage? 
+Well for that lets ask D.A.V.E to give a response on this sentence: "Good butler, dare I ask the benefits of using a bar chart for my dataset?"
+![code_response](code_response.png)
+As you can see, it has come back with a response! Its not nearly as sassy as i need it to be. but too be fair I have been using the same assistant and thread for a while, so it may have been diluted. Let try and say something like "how are you dave?" to see what comes back:
+
+
+
+
 
 
 ## Glossary
@@ -63,6 +102,7 @@ Now we have tested the art of the possible to create an AI assistant in the Open
  - AI - Artificial Intelligence
  - LLM - Large Language Model
  - Assistants API -  A tool for developers from open ai platform to craft powerful AI assistants to do a an array of tasks.
+ - Thread - a conversation bucket between a user and the asssistant to converse.(I like the term conversation bucket more!)
 
 
  I would like to thank the folks at freecode camp for the inspiration behind this exercise, with the following tutorial to help me learn this area :

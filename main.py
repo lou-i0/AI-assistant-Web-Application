@@ -1,47 +1,63 @@
 
 # %%============================= 
-# 0 -  Import relevant libraries
+# 1 -  Import relevant libraries
 #-----------------------------
-from openai import OpenAI                   # for using openai tools.
-from dotenv import find_dotenv, load_dotenv # retrieve .env variables.
-import os                                   # Operating system operations.  Hello Dave, dare i ask to require knowledge regarding the use of a boxplot?
-from datetime import datetime as dti        # datetime manipulation
+from openai import OpenAI                   # For using openai tools.
+import os                                   # Operating system operations.
+import time as tim                          # Tracking and formatting time
+from datetime import datetime as dti        # Datetime manipulation
 #=============================
 
 # %%=============================
-# 1 - Set up Open AI client connection and model to use 
+# 2 - Set up Open AI client connection and model to use 
 #-----------------------------
 oa    = OpenAI(api_key = os.environ.get("OA-ASSIS-API_KEY"))
 model = "gpt-3.5-turbo"                     # Select which open ai model to use for the AI Assistant.
 #=============================
 
 # %%=============================
-# 2 - Set up condition that either uses hardcoded values, for the assistant
+# 3 - Set up condition that either uses hardcoded values, for the assistant
 #     and conversation bucket, created previously, and will be used in future.
 #-----------------------------
 # Hard code assistant id as the assistant is already created.
 #.............................
-dave_assis_id = "asst_01ZQe75ahNihrJU9mTuTAje1"
+dave_assis_id = "asst_lUDxxW2xLQuB4aHZFBFvaIlG"
+
+# # Create the assistant and get the id
+# #.............................
+# dave_assis = oa.beta.assistants.create( model = model, name = "Dave",tools=[{"type":"code_interpreter"}]
+#                                         ,instructions   = """You are Dave, a sassy and sarcastic butler, but excellent at data science and analytics. You know best approaches to tackle data problems.\n No code problem phases you, and treated with grace and sassy sarcasm."""
+#                                        )
+# dave_assis_id = dave_assis.id
+# print(f"Assistant ID: {dave_assis_id}")
+
 
 # Hardcoded thread_id from previous interaction 
 #.............................
-conv_id = "thread_u3aglkR6O1ImOP0HnuIUOeKk"
+conv_id = "thread_8HGtjo0oJzYVLHvKw6ZOZUbj"
+# Create new thread (conversation bucket) and its id
+#.............................
+# conv_bucket = oa.beta.threads.create(messages =[{"role": "user","content" : "Can you explain what a normal distribution is in simple terms please?"}])
+# conv_id = conv_bucket.id
+# print(f"Conversation Bucket: {conv_id}")
+
+
 #=============================
 
 # %%============================
-# 3 - Create New Message for saved conversation bucket (thread)
+# 4 - Create New Message for saved conversation bucket (thread)
 #----------------------------
 msg = input("Please enter your message for D.A.V.E here:")
 message = oa.beta.threads.messages.create(thread_id = conv_id, role = "user", content = msg)
 #============================
 
 # %%============================
-# 4 - Run assistant, with created conversation, and process the response
+# 5 - Run assistant, with created conversation, and process the response
 dave_run = oa.beta.threads.runs.create(thread_id = conv_id, assistant_id = dave_assis_id
                                        , instructions="Please address the user as a Human")
 #============================
 # %%============================
-# 5 - Function process message input into conversation bucket, get D.A.V.E
+# 6 - Function process message input into conversation bucket, get D.A.V.E
 #     to provide response, including how long it took.
 #----------------------------
 def wait_for_completion(client, thread_id, run_id, sleep_interval = 5):
@@ -75,43 +91,9 @@ def wait_for_completion(client, thread_id, run_id, sleep_interval = 5):
         i += sleep_interval
         tim.sleep(sleep_interval)
 #============================
+        
 # %%============================
-# 6 - Call function above to effectively use query and get the response from D.A.V.E
+# 7 - Call function above to effectively use query and get the response from D.A.V.E
 #----------------------------
 wait_for_completion(client = oa, thread_id = conv_id, run_id= dave_run.id)
-#============================
-
-
-
-
-
-# %% THIS STUFF LEFT HERE TO CREATE assitant and thread when needed
-#========================================================================================
-# Create the Assistant and thread 
-#----------------------------
-# Create the assistant first 
-#----------------------------
-# dave_assis = oa.beta.assistants.create(     # Create Assistant to use
-#                                     model           = model
-#                                     ,name           = "Dave"
-#                                     ,instructions   = """You are Dave, a witty and sassy butler who is sarcastic, but excellent at data science and analytics. You know the best approach to tackle a data problem.\n No code problem phases you, and treat every problem with grace, decorum, and snooty sassy sarcasm."""
-#                                     ,tools=[{"type":"code_interpreter"}]
-                                   
-#                                  )
-
-# get id of the assistant created.
-#-----------------------------
-# dave_assis_id = dave_assis.id
-#============================
-
-# Create new thread (conversation bucket)
-#----------------------------
-# conv_bucket = oa.beta.threads.create(
-#                                       messages =
-#                                       [{"role": "user"
-#                                         ,"content" : "Can you explain what a normal distribution is in simple terms please?"}]
-#                                     )
-# Get the thread id from above 
-#-----------------------------
-# conv_id = conv_bucket.id
 #========================================================================================
