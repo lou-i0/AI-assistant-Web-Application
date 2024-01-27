@@ -39,7 +39,7 @@ message = oa.beta.threads.messages.create(thread_id = conv_id, role = "user", co
 # %%============================
 # 4 - Run assistant, with created conversation, and process the response
 dave_run = oa.beta.threads.runs.create(thread_id = conv_id, assistant_id = dave_assis_id
-                                       , instructions="Please address the user as 'Human'")
+                                       , instructions="Please address the user as a Human")
 #============================
 # %%============================
 # 5 - Function process message input into conversation bucket, get D.A.V.E
