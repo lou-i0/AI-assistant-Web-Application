@@ -156,20 +156,28 @@ def news_collect(topic, from_date = '2024-01-28',to_date ='2024-01-28'):
     except req.exceptions.RequestException as e:
         print(f"Issue found with API request: {e}")
 
-#  create main and call, that the code will eventually use going forward.
-def main():
-    news = news_collect(topic = 'ChatGPT')
-    print(news[0])
+
 
 # SECTION TWO - COMPLETE
 #========================================================================================
 #////////////////////////////////////////////////////////////////////////////////////////
 #========================================================================================
-# %% SECTION Three - AI Assistant Class? 
+# %% SECTION THREE - AI Assistant Class? 
 #========================================================================================
 #////////////////////////////////////////////////////////////////////////////////////////
 #========================================================================================
     
+
+
+# SECTION THREE - COMPLETE
+#========================================================================================
+#////////////////////////////////////////////////////////////////////////////////////////
+#========================================================================================
+    
+#  %% create main and call, that the code will eventually use going forward.
+def main():
+    news = news_collect(topic = 'ChatGPT')
+    print(news[0])
 # %%
 if __name__ =="__main__":
    main()
