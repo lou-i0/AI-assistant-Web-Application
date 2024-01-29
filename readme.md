@@ -16,7 +16,8 @@ the assistant API can be set up with a defined characteristic and capabilities a
 
 ## Table of Contents
 
-1. [Getting Started](#getting-started)
+1. [Pre-requisites](#pre-requisites-before-creating-the-web-application-assistant)
+2. [Steps Taken](#steps-taken)
 
 ## Pre-requisites before creating the web application/ assistant.
 ### Api Key Creation (OpenAI): 
