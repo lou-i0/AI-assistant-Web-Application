@@ -43,7 +43,7 @@ dave_assis_id = "asst_lUDxxW2xLQuB4aHZFBFvaIlG"
 conv_id = "thread_8HGtjo0oJzYVLHvKw6ZOZUbj"
 # Create new thread (conversation bucket) and its id
 #.............................
-# conv_bucket = oa.beta.threads.create(messages =[{"role": "user","content" : "Can you explain what a normal distribution is in simple terms please?"}])
+# conv_bucket = oa.beta.threads.create()
 # conv_id = conv_bucket.id
 # print(f"Conversation Bucket: {conv_id}")
 
@@ -166,7 +166,70 @@ def news_collect(topic, from_date = '2024-01-28',to_date ='2024-01-28'):
 #========================================================================================
 #////////////////////////////////////////////////////////////////////////////////////////
 #========================================================================================
+# Create class to manage D.A.V.E
+#=============================
+class Dave:
+    conv_id = None                          # id for thread_id / Conversation Bucket
+    assistant_id = None                     # id for assistant created in open Ai Assistants
+
+    def __init__(self, model:str = model):  # Create Constructor to set up the class
+        self.oa = oa                        # for Open AI connection with API Key
+        self.model = "gpt-3.5-turbo"        # the model to build the assistant with 
+        self.assistant = None               # The Assistant itself (D.A.V.E!)
+        self.conv = None                    # The Thread / Conversation bucket to store messages in
+        self.run  = None                    # The run in which to process the queries
+        self.summary = None                 # The news feed we parse from News API
+
+    # Retrieve existing IDS if assistant and thread has already been created.
+    #----------------------------
+    if Dave.assistant_id:
+        self.assistant = self.oa.beta.assistants.retrieve(assistant_id = Dave.assistant_id)
+    if Dave.conv_id:
+        self.conv = self.oa.beta.threads.retrieve(thread_id = Dave.conv_id)
+
+    # Method to Create AI assistant in Open AI if needed.
+    #----------------------------
+    def create_dave(self):
+        if not self.assistant_id:
+            dave_obj = self.oa.beta.assistants.create(
+                                                        name = 'Dave'
+                                                        ,instructions = '''You are Dave, a sassy and sarcastic butler, but excellent at data science and analytics. You know the best approaches to tackle data problems.\n
+                                                                           No code problem phases you, and treated with grace and sassy sarcasm.'''
+                                                        ,description = '''You are Dave, a sassy and sarcastic butler, but excellent at data science and analytics. You know the best approaches to tackle data problems.\n
+                                                                          No code problem phases you, and treated with grace and sassy sarcasm.'''
+                                                        ,tools = [{"type":"code_interpreter"}]
+                                                        ,model = self.model
+                                                     )
+            Dave.assistant_id   = dave_obj.id
+            self.assistant      = dave_obj
+            print(f"Assistant ID: {self.assistant.id}")
+
+    # Method to Create conversation bucket (thread) if needed.
+    #----------------------------
+    def create_conv_bucket(self):
+        if not self.conv:
+            conv_obj = self.oa.beta.threads.create()
+            Dave.conv_id = conv_obj.id
+            self.conv = conv_obj
+            print(f"Conversation Bucket ID: {self.conv_id}")
+
+    # Method to add query to conversation bucket, for D.A.V.E to answer.
+    #----------------------------
+    def ask_dave_something(self, role, content):
+        if self.conv:
+            self.oa.beta.threads.messages.create(
+                                                    thread_id= self.conv.id
+                                                    ,role = role
+                                                    ,content = content
+                                                )
+            
+    # Method to make D.A.V.E run and process the query.
+    #----------------------------
     
+
+
+
+
 
 
 # SECTION THREE - COMPLETE
