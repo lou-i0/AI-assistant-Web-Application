@@ -169,16 +169,16 @@ def news_collect(topic, from_date = '2024-01-28',to_date ='2024-01-28'):
 # Create class to manage D.A.V.E
 #=============================
 class Dave:
-    conv_id = None                          # id for thread_id / Conversation Bucket
-    assistant_id = None                     # id for assistant created in open Ai Assistants
+    conv_id = None                                      # id for thread_id / Conversation Bucket
+    assistant_id = None                                 # id for assistant created in open Ai Assistants
 
-    def __init__(self, model:str = model):  # Create Constructor to set up the class
-        self.oa = oa                        # for Open AI connection with API Key
-        self.model = "gpt-3.5-turbo"        # the model to build the assistant with 
-        self.assistant = None               # The Assistant itself (D.A.V.E!)
-        self.conv = None                    # The Thread / Conversation bucket to store messages in
-        self.run  = None                    # The run in which to process the queries
-        self.summary = None                 # The news feed we parse from News API
+    def __init__(self, model:str = model):              # Create Constructor to set up the class
+        self.oa = oa                                    # for Open AI connection with API Key
+        self.model = "gpt-3.5-turbo"                    # the model to build the assistant with 
+        self.assistant = None                           # The Assistant itself (D.A.V.E!)
+        self.conv = None                                # The Thread / Conversation bucket to store messages in
+        self.run  = None                                # The run in which to process the queries
+        self.summary = None                             # The news feed we parse from News API
 
     # Retrieve existing IDS if assistant and thread has already been created.
     #----------------------------
@@ -190,7 +190,7 @@ class Dave:
     # Method to Create AI assistant in Open AI if needed.
     #----------------------------
     def create_dave(self):
-        if not self.assistant_id:
+        if not self.assistant_id:                       # If assistant id is not found, create a new assistant
             dave_obj = self.oa.beta.assistants.create(
                                                         name = 'Dave'
                                                         ,instructions = '''You are Dave, a sassy and sarcastic butler, but excellent at data science and analytics. You know the best approaches to tackle data problems.\n
@@ -200,18 +200,18 @@ class Dave:
                                                         ,tools = [{"type":"code_interpreter"}]
                                                         ,model = self.model
                                                      )
-            Dave.assistant_id   = dave_obj.id
-            self.assistant      = dave_obj
-            print(f"Assistant ID: {self.assistant.id}")
+            Dave.assistant_id   = dave_obj.id           # Set new assistant id from what was created.
+            self.assistant      = dave_obj              # Set the assistant to what was created.
+            print(f"Assistant ID: {self.assistant.id}") # Show the assistant Id (for debugging).
 
     # Method to Create conversation bucket (thread) if needed.
     #----------------------------
     def create_conv_bucket(self):
-        if not self.conv:
-            conv_obj = self.oa.beta.threads.create()
-            Dave.conv_id = conv_obj.id
-            self.conv = conv_obj
-            print(f"Conversation Bucket ID: {self.conv_id}")
+        if not self.conv:                               # If no previous conversation bucket found, create one.
+            conv_obj = self.oa.beta.threads.create()    # Create the conversation bucket.
+            Dave.conv_id = conv_obj.id                  # Assign the conv_id based on the new conversation.
+            self.conv = conv_obj                        # Set the conversation bucket to what was created.
+            print(f"Conversation ID: {self.conv_id}")   # Show the conversation bucket ID (for debugging purposes).
 
     # Method to add query to conversation bucket, for D.A.V.E to answer.
     #----------------------------
@@ -223,9 +223,53 @@ class Dave:
                                                     ,content = content
                                                 )
             
-    # Method to make D.A.V.E run and process the query.
+    # Method to make D.A.V.E run and the query.
     #----------------------------
-    
+    def dave_process_query(self, instructions):
+        if self.conv and self.assistant:
+            self.run = self.oa.beta.threads.runs.create(
+                                                            assistant_id    = self.assistant.id
+                                                            ,thread_id      = self.conv.id
+                                                            ,instructions   = instructions
+                                                       )
+            
+    # Method to retrieve the query
+    #----------------------------
+    def dave_give_reponse(self):
+        if self.conv:
+            responses = self.oa.beta.threads.messages.list(thread_id = self.thread.id)
+
+            summary = []
+
+            last_response = responses.data[0]
+            role = last_response.role
+            response = last_response.content[0].text.value
+
+            summary.append(response)
+            self.summary = "\n".join(summary)
+
+            print(f"D.A.V.E's Response: {role.capitalize()}:{response}")
+
+    # Method to wait for D.A.V.E to finish
+    #----------------------------
+    def wait_for_dave(self):
+        if self.conv and self.run:
+            while True:
+                tim.sleep(5)
+                dave_run_get = self.oa.threads.runs.retrieve(
+                                                                thread_id   = self.conv.id
+                                                                ,run_id     = self.run.id
+                                                            )
+                
+                print(f"How is D.A.V.E doing: {dave_run_get.model_dump_json(indent = 4)}")
+                if dave_run_get.status == "completed":
+                    self.dave_process_query
+                    break
+                elif dave_run_get.status =="requires_action":
+                    print("Lets get the news!")
+                    self.call_required_functions(self required)
+
+                
 
 
 
