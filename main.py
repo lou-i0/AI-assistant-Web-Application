@@ -146,8 +146,7 @@ def news_collect(topic, from_date = '2024-01-28',to_date ='2024-01-28'):
                                     Title: {title}
                                     ,Author: {author}
                                     ,Source: {source_name}
-                                    ,URL: {article_url}
-                                    
+                                    ,URL: {article_url} 
                                 """
                 news_final.append(news_article)
             return news_final
