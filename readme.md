@@ -19,16 +19,16 @@ the assistant API can be set up with a defined characteristic and capabilities a
 1. [Getting Started](#getting-started)
 
 ## Pre-requisites before creating the web application/ assistant.
-1. Api Key Creation (OpenAI): 
+### Api Key Creation (OpenAI): 
     1. Go to [OpenAI](https://openai.com/)
     2. Log in to your account (or create one!)
     3. Click on API on the right hand side 
     4. This will bring you to the main api page. From there, click on API keys (that is a little lock icon on the left hand side).
 
-2. Set up Billing:
+### Set up Billing:
 to proceed in this exercise I had to add payment details and pay an amount i was comfortable with in order to use the functionalities in open AI. for testing purposes and later infrequent use, the prices are pretty reasonsable and even more so on the older llm models you can adopt. To set up billing, go the [billing settings](https://platform.openai.com/account/billing/overview), add a payment method, and add an amount to begin. 
 
-3. Python Libraries - needed to be used within python and beyond for both api and web application:
+### Python Libraries - needed to be used within python and beyond for both api and web application:
 | Library | What it does | Notes |
 |---------|--------------|-------|
 | openai | Use and access open ai tools and interface||
@@ -36,7 +36,7 @@ to proceed in this exercise I had to add payment details and pay an amount i was
 | time | tracking and formatting time | Lovingly referred to as tim |
 | datetime | datetime manipulation |
 
-4. Api Key Creation (News API)
+### Api Key Creation (News API)
     1. Go to [newsapi.org](https://newsapi.org)
     2. Either set up registration or get api key.
     3. Copy API key into environment variable.
@@ -102,7 +102,8 @@ As you can see, it has come back with a response! Its not nearly as sassy as i n
 
 ### How to create a news feed via News API
 #### Context 
-In readyness for building the web application in which to host our AI assistant, I want (initially) for the web application to show a news feed based on a range of dates based on any topic the user wishes to deal with. Therefore, one method of doing this is by creating API calls to [NewsAPI](https://newsapi.org).
+In readyness for building the web application in which to host our AI assistant, I want (initially) for the web application to show a news feed based on a range of dates based on any topic the user wishes to deal with. Therefore, one method of doing this is by creating API calls to [NewsAPI](https://newsapi.org). As well the above pre-requisite to create the API key for [NewsAPI](#api-key-creation-news-api), the following code is created to facilitate API calls from here:
+![Code for NewsAPI Topic Collection](newsapi_topic_collection.png)
 
 
 
