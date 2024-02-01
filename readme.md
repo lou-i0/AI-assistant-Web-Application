@@ -45,6 +45,7 @@ to proceed in this exercise I had to add payment details and pay an amount i was
 ## Steps Taken
 1. [How to build the Assistant API](#how-to-build-the-assistant-api)
 2. [How to create a news feed from News API](#how-to-create-a-news-feed-via-news-api)
+3. [How to build D.A.V.E](#how-to-create-dave)
 
 
 ### How to build the Assistant API
@@ -105,6 +106,29 @@ As you can see, it has come back with a response! Its not nearly as sassy as i n
 #### Context 
 In readyness for building the web application in which to host our AI assistant, I want (initially) for the web application to show a news feed based on a range of dates based on any topic the user wishes to deal with. Therefore, one method of doing this is by creating API calls to [NewsAPI](https://newsapi.org). As well the above pre-requisite to create the API key for [NewsAPI](#api-key-creation-news-api), the following code is created to facilitate API calls from here:
 ![Code for NewsAPI Topic Collection](newsapi_topic_collection.png)
+
+This code work successfully after testing by using a simple topic ("ChatGPT") and return the top 5 articles related to it with relevant information and links for the user to go forward with. Its a useful exercise, and will test this with the stages to ensure the app I made works successfully. However, ultimately  while this is useful tool for another purpose, its not the vision of D.A.V.E I has envisioned, so will take another approach after D.A.V.E has a class created all for them self, as well as test the working of the streamlit in the processing of information. 
+
+However, for the purposes of this documentation (if it helps anyone else) is that a function is created called news_collect() - which given a topic -  will place HTTPS get requests via the NEWSAPI to retrieve information on that topic and return it to the user. Useful testing with an Assistant's API , as the text returned will be formatted in a way that is digestiable to user on the streamlit app (shown later). But to reflect, testing purposes its useful, but not the D.A.V.E I want. Anyway , the next step now , is to build a python class for D.A.V.E to handle all the relevant interactions a bit more cleanly /  in a Object Orientated manner.
+
+### How to create D.A.V.E 
+Now that we have tested the use of calling to an API assistant via OpenAI, and pulling news from NEWS API, lets use the former to create a class to bring D.A.V.E to life in a more structured and maintained way , with the goal to create methods to process queries and return the results. Please see the screenshots below of the code used to create D.A.V.E as a class:
+![dave_class_1](dave_class_1.png)
+![dave_class_2](dave_class_2.png)
+
+In summary, the following methods were created , along with their purpose:
+| Method | What it does | Notes |
+|---------|--------------|-------|
+| __init__|Set ups a constructor when D.A.V.E is called with the relevant variables|attributes include the model from open ai used, as well as placeholders for conversations, runs performed, and infromation to store for the news api (summary)|
+|create_dave| As the name implies!| similar to the set up before in the [How to build the Assistant API](#how-to-build-the-assistant-api)|
+|create_conv_bucket| simlar to above, but create or use a conversation bucket|see above|
+|ask_dave_something| Create a message in the conversation bucket with a message from the user||
+|dave_process_query| Create a run for dave to process the message in the conversation bucket||
+|dave_give_response| From said run, get the response from D.A.V.E and retrieve the content||
+|call_required_Actions| used to perform a called function ( in this case, the news api call function created earlier) and out put the results| Not something I will be using after the streamlit has been tested with it|
+|get_highlights| gets the response from D.A.V.E based on the results of the dave_give_response| Again, this may be dropped in future, as in there mainly for the news api testing.| 
+
+
 
 
 

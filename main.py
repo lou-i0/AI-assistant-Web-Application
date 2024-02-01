@@ -28,7 +28,7 @@ model = "gpt-3.5-turbo"                     # Select which open ai model to use 
 #-----------------------------
 # Hard code assistant id as the assistant is already created.
 #.............................
-dave_assis_id = "asst_lUDxxW2xLQuB4aHZFBFvaIlG"
+dave_assis_id = "asst_OhFZHPv6RQ6U3E0W4g9VwjfJ"
 
 # # Create the assistant and get the id
 # #.............................
@@ -41,7 +41,7 @@ dave_assis_id = "asst_lUDxxW2xLQuB4aHZFBFvaIlG"
 
 # Hardcoded thread_id from previous interaction 
 #.............................
-conv_id = "thread_8HGtjo0oJzYVLHvKw6ZOZUbj"
+conv_id = "thread_Lv1Y6lo3hfIQGSRienn4Ec8z"
 # Create new thread (conversation bucket) and its id
 #.............................
 # conv_bucket = oa.beta.threads.create()
@@ -170,11 +170,10 @@ def news_collect(topic, from_date = '2024-01-28',to_date ='2024-01-28'):
 # Create class to manage D.A.V.E
 #=============================
 class Dave:
-    conv_id = None                                      # id for thread_id / Conversation Bucket
-    assistant_id = None                                 # id for assistant created in open Ai Assistants
+    conv_id = "thread_Lv1Y6lo3hfIQGSRienn4Ec8z"         # id for thread_id / Conversation Bucket
+    assistant_id = "asst_OhFZHPv6RQ6U3E0W4g9VwjfJ"      # id for assistant created in open Ai Assistants
 
-    def __init__(self, model:str = model):              # Create Constructor to set up the class
-    # def __init__(self):                               # Create Constructor to set up the class
+    def __init__(self):                                 # Create Constructor to set up the class
         self.oa = oa                                    # for Open AI connection with API Key
         self.model = "gpt-3.5-turbo"                    # the model to build the assistant with 
         self.assistant = None                           # The Assistant itself (D.A.V.E!)
@@ -239,7 +238,7 @@ class Dave:
     #----------------------------
     def dave_give_response(self):
         if self.conv:
-            responses = self.oa.beta.threads.messages.list(thread_id = self.thread.id)
+            responses = self.oa.beta.threads.messages.list(thread_id = self.conv.id)
 
             summary = []
 
@@ -259,13 +258,13 @@ class Dave:
             return
         tool_outputs = []
 
-        for action in required_actions['tools_calls']:
+        for action in required_actions['tool_calls']:
             func_name = action['function']['name']
             arguments = json.loads(action['function']['arguments'])
 
             if func_name == "news_collect":
                 output = news_collect(topic = arguments['topic']) 
-                print(f"what came back from this... {output}")
+                # print(f"what came back from this... {output}")
 
                 final_str = ""
 
@@ -286,7 +285,7 @@ class Dave:
                                                         ,tool_outputs = tool_outputs
                                                      )
 
-    # Method for streamlit?
+    # Method for streamlit to return results
     #----------------------------
     def get_highlights(self):
         return self.summary
@@ -311,22 +310,7 @@ class Dave:
                     break
                 elif dave_run_get.status == "requires_action":
                     print("Lets get the news!") # FUNCTION CALLING NOW
-                    self.call_required_actions(required_actions = dave_run_get.status.required_action.submit_tool_outputs.model_dump())
-                
-
-    # Method to run the steps ? 
-    #----------------------------
-    def run_dave_steps(self):
-        run_steps = self.oa.beta.threads.runs.steps.list(
-                                                            thread_id = self.conv.id
-                                                            ,run_id = self.run.id
-                                                        )
-        
-        print(f"Run Steps: {run_steps}")
-
-
-
-
+                    self.call_required_actions(required_actions = dave_run_get.required_action.submit_tool_outputs.model_dump())
 
 # SECTION THREE - COMPLETE
 #========================================================================================
@@ -390,13 +374,11 @@ def main():
 
             # Place response into a summary list thing
             #----------------------------
-            summary = dave.dave_give_response()
+            summary = dave.get_highlights()
 
             # Write D.A.V.E's response onto streamlit
             #----------------------------
             st.write(summary)
-            st.text("Run Steps")
-            st.code(dave.run_dave_steps(), line_numbers = True)
 
 
     
@@ -404,6 +386,3 @@ def main():
 # %%
 if __name__ =="__main__":
    main()
-
-
-# %%
