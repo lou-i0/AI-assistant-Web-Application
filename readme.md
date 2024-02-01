@@ -111,8 +111,8 @@ However, for the purposes of this documentation (if it helps anyone else) is tha
 
 ### How to create D.A.V.E 
 Now that we have tested the use of calling to an API assistant via OpenAI, and pulling news from NEWS API, lets use the former to create a class to bring D.A.V.E to life in a more structured and maintained way , with the goal to create methods to process queries and return the results. Please see the screenshots below of the code used to create D.A.V.E as a class:
-![dave_class_1](screenshots/screenshots/dave_class_1.png)
-![dave_class_2](screenshots/screenshots/dave_class_2.png)
+![dave_class_1](screenshots/dave_class_1.png)
+![dave_class_2](screenshots/dave_class_2.png)
 
 In summary, the following methods were created , along with their purpose:
 | Method | What it does | Notes |
