@@ -127,6 +127,13 @@ In summary, the following methods were created , along with their purpose:
 |dave_give_response| From said run, get the response from D.A.V.E and retrieve the content||
 |call_required_Actions| used to perform a called function ( in this case, the news api call function created earlier) and out put the results| Not something I will be using after the streamlit has been tested with it|
 |get_highlights| gets the response from D.A.V.E based on the results of the dave_give_response| Again, this may be dropped in future, as in there mainly for the news api testing.| 
+| wait_for_dave | used to allow D.A.V.E Chance to process the request and get the response, and check on the wonderful butler to see how they are doing :)| this will change in the next interation of the code.|
+
+With this all done , D.A.V.E is now some form of living object, ready to be called upon for our wants an needs. 
+
+
+### Create basic streamlit app to test above 
+Now with all the above done, I am now in a position to test this first iteration of D.A.V.E more fleshed out wise, therefore I added the following bits of code to the end of the current python script before showing the results on streamlit:
 
 
 
