@@ -9,11 +9,9 @@ The Idea of this (WAOA) was to learn a few things:
 This work conducted here will go toward my understanding of a way to create a web app. Furthermore, the use of the ai assistant will provide a predicate into how a llm can be used, created and applied into a useful scenario - to help me learn for future work.
 
 The Assistant API has benefits such a level of abstraction from an llm , but keeping conversation context, and adding more data to enrich the knowledge base. Additionally, it will be able to access multiple tools ion parallel to do stuff. There is some more info here that explains more in a visual format:
-![Benefits](assis_api_benefits.png)
-
+![Benefits](screenshots/assis_api_benefits.png)
 the assistant API can be set up with a defined characteristic and capabilities and more in comparison to the chat completions api as shown in the below screenshot:
-![Assisant API vs Completions API](assis_vs_completion_api_comparison.png)
-
+![Assisant API vs Completions API](screenshots/assis_vs_completion_api_comparison.png)
 ## Table of Contents
 
 1. [Pre-requisites](#pre-requisites-before-creating-the-web-application-assistant)
@@ -51,7 +49,7 @@ to proceed in this exercise I had to add payment details and pay an amount i was
 ### How to build the Assistant API
 #### Context 
 Please see below screenshot to illustrate the steps needed to build the assistants API from open AI into my web application:
-![assis_Api_building blocks](assis_api_building_blocks.png)
+![assis_Api_building blocks](screenshots/assis_api_building_blocks.png)
 
 It consists of 4 main building blocks:
 1. Assistant - the entity or thing that will be built then use to get information.
@@ -64,11 +62,11 @@ It consists of 4 main building blocks:
 
 #### Creating the AI Assistant in open AI playgound.
 Now I have the context understood as what needs to be done to create the AI Assistant, it is time to put the plan to action. Therefore I went back into the OpenAI API page [OpenAI Developer Platform](https://platform.openai.com/docs/overview) to go and create an assistant by clicking the robot icon to the right of the screen. From there I cam e across a screen similar to the below:
-![assis_page](dave_assis1.png)
+![assis_page](screenshots/dave_assis1.png)
 Where I went and created an assistant called Dave; a sassy butler, to help me with all my data analysis needs and wants!
 
 From there I decided to go an test the assistant before going any further, by clicking on the 'Test' button at the right top right of the assistant selected screen.
-![Dave Testing](assis_testing.png)
+![Dave Testing](screenshots/assis_testing.png)
 Which brings you to a playground to test how Dave is working. To my amazement, it is performing ( intially at least) how I like it to be :). You can see the assistant configuration on the left, the testing area in the middle, and the requests made as part of the queries on the right.
 
 #### Creating the assistant in code form
@@ -98,14 +96,14 @@ Finally, to actually call the function and returns the response to the terminal.
 
 #### What does the output look like at this stage? 
 Well for that lets ask D.A.V.E to give a response on this sentence: "Good butler, dare I ask the benefits of using a bar chart for my dataset?"
-![code_response](code_response.png)
+![code_response](screenshots/code_response.png)
 As you can see, it has come back with a response! Its not nearly as sassy as i need it to be. After some sleuthing, there appears to be a bug between the use of the assistant in the openAI playground , compared with the use in the python code. something to monitor, but at least for now , this works!
 
 
 ### How to create a news feed via News API
 #### Context 
 In readyness for building the web application in which to host our AI assistant, I want (initially) for the web application to show a news feed based on a range of dates based on any topic the user wishes to deal with. Therefore, one method of doing this is by creating API calls to [NewsAPI](https://newsapi.org). As well the above pre-requisite to create the API key for [NewsAPI](#api-key-creation-news-api), the following code is created to facilitate API calls from here:
-![Code for NewsAPI Topic Collection](newsapi_topic_collection.png)
+![Code for NewsAPI Topic Collection](screenshots/newsapi_topic_collection.png)
 
 This code work successfully after testing by using a simple topic ("ChatGPT") and return the top 5 articles related to it with relevant information and links for the user to go forward with. Its a useful exercise, and will test this with the stages to ensure the app I made works successfully. However, ultimately  while this is useful tool for another purpose, its not the vision of D.A.V.E I has envisioned, so will take another approach after D.A.V.E has a class created all for them self, as well as test the working of the streamlit in the processing of information. 
 
@@ -113,8 +111,8 @@ However, for the purposes of this documentation (if it helps anyone else) is tha
 
 ### How to create D.A.V.E 
 Now that we have tested the use of calling to an API assistant via OpenAI, and pulling news from NEWS API, lets use the former to create a class to bring D.A.V.E to life in a more structured and maintained way , with the goal to create methods to process queries and return the results. Please see the screenshots below of the code used to create D.A.V.E as a class:
-![dave_class_1](dave_class_1.png)
-![dave_class_2](dave_class_2.png)
+![dave_class_1](screenshots/screenshots/dave_class_1.png)
+![dave_class_2](screenshots/screenshots/dave_class_2.png)
 
 In summary, the following methods were created , along with their purpose:
 | Method | What it does | Notes |
