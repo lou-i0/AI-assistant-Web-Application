@@ -9,7 +9,8 @@ import time as tim                          # Tracking and formatting time
 import datetime as dti
 import requests as req                      # API https retrieval
 import json                                 # Parsing of Javascript Object Notation files
-import pandas as pd                         # Data analysis and manipulation.           
+import pandas as pd                         # Data analysis and manipulation.    
+import streamlit as st 
 #=============================
 
 #%%======================================================================================
@@ -173,6 +174,7 @@ class Dave:
     assistant_id = None                                 # id for assistant created in open Ai Assistants
 
     def __init__(self, model:str = model):              # Create Constructor to set up the class
+    # def __init__(self):                                 # Create Constructor to set up the class
         self.oa = oa                                    # for Open AI connection with API Key
         self.model = "gpt-3.5-turbo"                    # the model to build the assistant with 
         self.assistant = None                           # The Assistant itself (D.A.V.E!)
@@ -182,10 +184,10 @@ class Dave:
 
     # Retrieve existing IDS if assistant and thread has already been created.
     #----------------------------
-    if Dave.assistant_id:
-        self.assistant = self.oa.beta.assistants.retrieve(assistant_id = Dave.assistant_id)
-    if Dave.conv_id:
-        self.conv = self.oa.beta.threads.retrieve(thread_id = Dave.conv_id)
+        if Dave.assistant_id:
+            self.assistant = self.oa.beta.assistants.retrieve(assistant_id = Dave.assistant_id)
+        if Dave.conv_id:
+            self.conv = self.oa.beta.threads.retrieve(thread_id = Dave.conv_id)
 
     # Method to Create AI assistant in Open AI if needed.
     #----------------------------
@@ -235,7 +237,7 @@ class Dave:
             
     # Method to retrieve the query
     #----------------------------
-    def dave_give_reponse(self):
+    def dave_give_response(self):
         if self.conv:
             responses = self.oa.beta.threads.messages.list(thread_id = self.thread.id)
 
@@ -250,27 +252,77 @@ class Dave:
 
             print(f"D.A.V.E's Response: {role.capitalize()}:{response}")
 
+    # Method to call specify functions to call 
+    #----------------------------
+    def call_required_actions(self, required_actions):
+        if not self.run:
+            return
+        tool_outputs = []
+
+        for action in required_actions['tools_calls']:
+            func_name = action['function']['name']
+            arguments = json.loads(action['function']['arguments'])
+
+            if func_name == "news_collect":
+                output = news_collect(topic = arguments['topic']) 
+                print(f"what came back from this... {output}")
+
+                final_str = ""
+
+                for item in output:
+                    final_str += "".join(item)
+
+                tool_outputs.append({"tool_call_id": action["id"]
+                                     ,"output" : final_str })
+                
+            else:
+                raise ValueError(f"Unknown function: {func_name}")
+            
+        print("Submitting outputs back to the assistant.")
+
+        self.oa.beta.threads.runs.submit_tool_outputs(
+                                                        thread_id = self.conv.id
+                                                        ,run_id = self.run.id
+                                                        ,tool_outputs = tool_outputs
+                                                     )
+
+    # Method for streamlit?
+    #----------------------------
+    def get_highlights(self):
+        return self.summary
+    
+
     # Method to wait for D.A.V.E to finish
     #----------------------------
     def wait_for_dave(self):
-        if self.conv and self.run:
+        if self.conv and self.run:                          # Check there is a active run created with a open conversation bucket.
             while True:
-                tim.sleep(5)
+                tim.sleep(5)                                # Wait for ? seconds to allow D.A.V.E to process before checking.
+
                 dave_run_get = self.oa.threads.runs.retrieve(
                                                                 thread_id   = self.conv.id
                                                                 ,run_id     = self.run.id
                                                             )
                 
                 print(f"How is D.A.V.E doing: {dave_run_get.model_dump_json(indent = 4)}")
+
                 if dave_run_get.status == "completed":
-                    self.dave_process_query
+                    self.dave_give_response()
                     break
                 elif dave_run_get.status =="requires_action":
-                    print("Lets get the news!")
-                    self.call_required_functions(self required)
-
+                    print("Lets get the news!") # FUNCTION CALLING NOW
+                    self.call_required_actions(required_actions = dave_run_get.status.required_actions.submit_tool_outputs.model_dump())
                 
 
+    # Method to run the steps ? 
+    #----------------------------
+    def run_dave_steps(self):
+        run_steps = self.oa.beta.threads.runs.steps.list(
+                                                            thread_id = self.conv.id
+                                                            ,run_id = self.run.id
+                                                        )
+        
+        print(f"Run Steps: {run_steps}")
 
 
 
@@ -283,9 +335,23 @@ class Dave:
     
 #  %% create main and call, that the code will eventually use going forward.
 def main():
-    news = news_collect(topic = 'ChatGPT')
-    print(news[0])
+    # news = news_collect(topic = 'ChatGPT') # for testing 
+    # print(news[0])                         # for testing 
+
+    dave = Dave()                            # Create a D.A.V.E!
+
+    # We Interface creation via St
+    #=============================
+    st.title("D.A.V.E")                     # Set a title in the app
+
+    with st.form(key = "Asking_D.A.V.E_Something"):
+        instructions = st.text_input(label = "Please enter a topic for D.A.V.E to find")
+        st.form_submit_button()# Create a submit button
+    
+
 # %%
 if __name__ =="__main__":
    main()
 
+
+# %%
