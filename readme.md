@@ -133,7 +133,11 @@ With this all done , D.A.V.E is now some form of living object, ready to be call
 ### Create basic streamlit app to test above 
 Now with all the above done, I am now in a position to test this first iteration of D.A.V.E more fleshed out wise, therefore I added the following bits of code to the end of the current python script before showing the results on streamlit:
 
+![main()](screenshots/dave_streamlit_1.png)
+ As seen in the screenshot above, the main function offers a way to set things in motion. I begin by creating a D.A.V.E instance, set up the streamlit app , and create an input field with a submit button, so the user can enter a topic they wish and get the results presented back to them from the NEWS API , onto the screen. 
 
+ So to test how this looks, I ( on the terminal , ran the command " streamlit run main.py") which opens upa  browser window and shows this:
+![dave_sl_1](screenshots/dave_sl_1.png)
 
 
 
