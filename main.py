@@ -51,52 +51,52 @@ conv_id = "thread_8HGtjo0oJzYVLHvKw6ZOZUbj"
 # ============================
 # 4 - Create New Message for saved conversation bucket (thread)
 #----------------------------
-msg = input("Please enter your message for D.A.V.E here:")
-message = oa.beta.threads.messages.create(thread_id = conv_id, role = "user", content = msg)
+# msg = input("Please enter your message for D.A.V.E here:")
+# message = oa.beta.threads.messages.create(thread_id = conv_id, role = "user", content = msg)
 
 # ============================
 # 5 - Run assistant, with created conversation, and process the response
-dave_run = oa.beta.threads.runs.create(thread_id = conv_id, assistant_id = dave_assis_id
-                                       , instructions="Please address the user as a Human")
+# dave_run = oa.beta.threads.runs.create(thread_id = conv_id, assistant_id = dave_assis_id
+#                                        , instructions="Please address the user as a Human")
 # ============================
 # 6 - Function process message input into conversation bucket, get D.A.V.E
 #     to provide response, including how long it took.
 #----------------------------
-def wait_for_completion(client, thread_id, run_id, sleep_interval = 5):
-    '''
-    param client        : refers to the open ai connection we have created
-    param thread_id     : id of the conversation bucket / thread active
-    param run_id        : the id of the run
-    param sleep_interval: Time in seconds to wait between checks
-    '''
-    # counter providing feedback whilst waiting 
-    #.............................
-    i = 0
-    while True:
-        try:
-            dave_run_get = client.beta.threads.runs.retrieve(thread_id =thread_id, run_id = run_id)
-            if dave_run_get.completed_at:
-                formatted_elapsed_time = tim.strftime("%H:%M:%S",tim.gmtime(dave_run_get.completed_at - dave_run_get.created_at))
-                print(f"D.A.V.E completed in {formatted_elapsed_time}")
+# def wait_for_completion(client, thread_id, run_id, sleep_interval = 5):
+#     '''
+#     param client        : refers to the open ai connection we have created
+#     param thread_id     : id of the conversation bucket / thread active
+#     param run_id        : the id of the run
+#     param sleep_interval: Time in seconds to wait between checks
+#     '''
+#     # counter providing feedback whilst waiting 
+#     #.............................
+#     i = 0
+#     while True:
+#         try:
+#             dave_run_get = client.beta.threads.runs.retrieve(thread_id =thread_id, run_id = run_id)
+#             if dave_run_get.completed_at:
+#                 formatted_elapsed_time = tim.strftime("%H:%M:%S",tim.gmtime(dave_run_get.completed_at - dave_run_get.created_at))
+#                 print(f"D.A.V.E completed in {formatted_elapsed_time}")
 
-                # get messages when run completes
-                #.............................
-                last_response       = client.beta.threads.messages.list(thread_id = thread_id).data[0].content[0].text.value
-                print(f"D.A.V.E's response is : {last_response}")
-                break
+#                 # get messages when run completes
+#                 #.............................
+#                 last_response       = client.beta.threads.messages.list(thread_id = thread_id).data[0].content[0].text.value
+#                 print(f"D.A.V.E's response is : {last_response}")
+#                 break
             
-        except Exception as e:
-            print(f"An error occurred whilst D.A.V.E was trying to formulate: {e}")
-            break
+#         except Exception as e:
+#             print(f"An error occurred whilst D.A.V.E was trying to formulate: {e}")
+#             break
         
-        print(f"Waiting for D.A.V.E to finish, {i} seconds passed.")
-        i += sleep_interval
-        tim.sleep(sleep_interval)
+#         print(f"Waiting for D.A.V.E to finish, {i} seconds passed.")
+#         i += sleep_interval
+#         tim.sleep(sleep_interval)
 
 # ============================
 # 7 - Call function above to effectively use query and get the response from D.A.V.E
 #----------------------------
-wait_for_completion(client = oa, thread_id = conv_id, run_id= dave_run.id)
+# wait_for_completion(client = oa, thread_id = conv_id, run_id= dave_run.id)
 #========================================================================================
 #SECTION  ONE COMPLETE- FOR NOW 
 #========================================================================================
@@ -163,7 +163,7 @@ def news_collect(topic, from_date = '2024-01-28',to_date ='2024-01-28'):
 #========================================================================================
 #////////////////////////////////////////////////////////////////////////////////////////
 #========================================================================================
-# %% SECTION THREE - AI Assistant Class? 
+# %% SECTION THREE - AI Assistant Class -  For D.A.V.E to be an object running on streamlit 
 #========================================================================================
 #////////////////////////////////////////////////////////////////////////////////////////
 #========================================================================================
@@ -174,7 +174,7 @@ class Dave:
     assistant_id = None                                 # id for assistant created in open Ai Assistants
 
     def __init__(self, model:str = model):              # Create Constructor to set up the class
-    # def __init__(self):                                 # Create Constructor to set up the class
+    # def __init__(self):                               # Create Constructor to set up the class
         self.oa = oa                                    # for Open AI connection with API Key
         self.model = "gpt-3.5-turbo"                    # the model to build the assistant with 
         self.assistant = None                           # The Assistant itself (D.A.V.E!)
@@ -191,7 +191,7 @@ class Dave:
 
     # Method to Create AI assistant in Open AI if needed.
     #----------------------------
-    def create_dave(self):
+    def create_dave(self, tools = [{"type":"code_interpreter"}]):
         if not self.assistant_id:                       # If assistant id is not found, create a new assistant
             dave_obj = self.oa.beta.assistants.create(
                                                         name = 'Dave'
@@ -199,7 +199,7 @@ class Dave:
                                                                            No code problem phases you, and treated with grace and sassy sarcasm.'''
                                                         ,description = '''You are Dave, a sassy and sarcastic butler, but excellent at data science and analytics. You know the best approaches to tackle data problems.\n
                                                                           No code problem phases you, and treated with grace and sassy sarcasm.'''
-                                                        ,tools = [{"type":"code_interpreter"}]
+                                                        ,tools = tools
                                                         ,model = self.model
                                                      )
             Dave.assistant_id   = dave_obj.id           # Set new assistant id from what was created.
@@ -299,7 +299,7 @@ class Dave:
             while True:
                 tim.sleep(5)                                # Wait for ? seconds to allow D.A.V.E to process before checking.
 
-                dave_run_get = self.oa.threads.runs.retrieve(
+                dave_run_get = self.oa.beta.threads.runs.retrieve(
                                                                 thread_id   = self.conv.id
                                                                 ,run_id     = self.run.id
                                                             )
@@ -309,9 +309,9 @@ class Dave:
                 if dave_run_get.status == "completed":
                     self.dave_give_response()
                     break
-                elif dave_run_get.status =="requires_action":
+                elif dave_run_get.status == "requires_action":
                     print("Lets get the news!") # FUNCTION CALLING NOW
-                    self.call_required_actions(required_actions = dave_run_get.status.required_actions.submit_tool_outputs.model_dump())
+                    self.call_required_actions(required_actions = dave_run_get.status.required_action.submit_tool_outputs.model_dump())
                 
 
     # Method to run the steps ? 
@@ -340,13 +340,65 @@ def main():
 
     dave = Dave()                            # Create a D.A.V.E!
 
-    # We Interface creation via St
+    # Web Interface creation via St
     #=============================
     st.title("D.A.V.E")                     # Set a title in the app
 
     with st.form(key = "Asking_D.A.V.E_Something"):
         instructions = st.text_input(label = "Please enter a topic for D.A.V.E to find")
-        st.form_submit_button()# Create a submit button
+        submit_button = st.form_submit_button(label = "Run D.A.V.E")    # Create a submit button
+
+        if submit_button:                   # When the submit button is clicked...
+            # Create a new D.A.V.E
+            #----------------------------
+            dave.create_dave(
+                                tools = [
+                                            {
+                                                "type" : "function"
+                                                ,"function":{
+                                                                "name" : "news_collect"
+                                                                ,"description" : " Get a list of news articles for the topic provided to D.A.V.E"
+                                                                ,"parameters" : {
+                                                                                    "type" : "object"
+                                                                                    ,"properties" : {
+                                                                                                        "topic" : {
+                                                                                                                    "type": "string"
+                                                                                                                    ,"description" : "The topic for the news, e.g. ChatGPT"
+                                                                                                                  }
+                                                                                                    }
+                                                                                    , "required" : ["topic"]
+                                                                                }
+                                                            }
+                                            }
+                                        ]
+                            )
+            # Create a conversation bucket
+            #----------------------------
+            dave.create_conv_bucket()
+
+            # Add a message to the conversation bucket, ready for D.A.V.E to process
+            #----------------------------
+            dave.ask_dave_something(role = "user", content = f"summarise the news on this topic {instructions}")
+
+            # Get D.A.V.E to process the query
+            #----------------------------
+            dave.dave_process_query(instructions = "Summarise the news.")
+
+            # Wait for D.A.V.E to finish processing the query and get the message.
+            #----------------------------
+            dave.wait_for_dave()
+
+            # Place response into a summary list thing
+            #----------------------------
+            summary = dave.dave_give_response()
+
+            # Write D.A.V.E's response onto streamlit
+            #----------------------------
+            st.write(summary)
+            st.text("Run Steps")
+            st.code(dave.run_dave_steps(), line_numbers = True)
+
+
     
 
 # %%
